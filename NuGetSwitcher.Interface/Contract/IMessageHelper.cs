@@ -1,11 +1,10 @@
-﻿using Microsoft.VisualStudio.Shell;
-
-using NuGetSwitcher.Helper.Entity.Error;
+﻿using NuGetSwitcher.Interface.Entity.Enum;
+using NuGetSwitcher.Interface.Entity.Error;
 
 using System;
 using System.Runtime.CompilerServices;
 
-namespace NuGetSwitcher.Helper
+namespace NuGetSwitcher.Interface.Contract
 {
     public interface IMessageHelper
     {
@@ -14,7 +13,7 @@ namespace NuGetSwitcher.Helper
         /// with the specified 
         /// type in the associated GUI tab.
         /// </summary>
-        void AddMessage(string message, TaskErrorCategory category, [CallerMemberName] string caller = "");
+        void AddMessage(string message, MessageCategory category, [CallerMemberName] string caller = "");
 
         /// <summary>
         /// Displays a message 
@@ -27,7 +26,7 @@ namespace NuGetSwitcher.Helper
         /// <param name="project">
         /// Full path to the solution project.
         /// </param>
-        void AddMessage(string project, string message, TaskErrorCategory category, [CallerMemberName] string caller = "");
+        void AddMessage(string project, string message, MessageCategory category, [CallerMemberName] string caller = "");
 
         /// <summary>
         /// Displays a message 

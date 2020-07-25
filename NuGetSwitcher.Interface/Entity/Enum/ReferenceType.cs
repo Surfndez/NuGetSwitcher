@@ -1,4 +1,4 @@
-﻿namespace NuGetSwitcher.Helper.Entity.Enum
+﻿namespace NuGetSwitcher.Interface.Entity.Enum
 {
     public enum ReferenceType : byte
     {

@@ -1,7 +1,8 @@
 ﻿using Microsoft.Build.Evaluation;
 
-using NuGetSwitcher.Helper.Entity.Enum;
-using NuGetSwitcher.Helper.Entity.Error;
+using NuGetSwitcher.Interface.Entity;
+using NuGetSwitcher.Interface.Entity.Enum;
+using NuGetSwitcher.Interface.Entity.Error;
 
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +11,7 @@ using System.Text.RegularExpressions;
 
 namespace NuGetSwitcher.Helper.Entity
 {
-    public sealed class ProjectReference
+    public sealed class ProjectReference : IProjectReference
     {
         public EnvDTE.Project DteProject
         {
@@ -22,6 +23,11 @@ namespace NuGetSwitcher.Helper.Entity
         {
             get;
             private set;
+        }
+
+        public string UniqueName
+        {
+            get => DteProject.UniqueName;
         }
 
         /// <summary>

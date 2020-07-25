@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-using NuGetSwitcher.Helper.Entity.Error;
+using NuGetSwitcher.Interface.Contract;
+using NuGetSwitcher.Interface.Entity.Enum;
+using NuGetSwitcher.Interface.Entity.Error;
 
 using System;
 using System.Runtime.CompilerServices;
@@ -34,9 +36,9 @@ namespace NuGetSwitcher.Helper
         /// with the specified 
         /// type in the associated GUI tab.
         /// </summary>
-        public virtual void AddMessage(string message, TaskErrorCategory category, [CallerMemberName] string caller = "")
+        public virtual void AddMessage(string message, MessageCategory category, [CallerMemberName] string caller = "")
         {
-            ErrorList.Tasks.Add(new ErrorTask { Text = $"Caller: { caller }. Message: { message }", ErrorCategory = category });
+            ErrorList.Tasks.Add(new ErrorTask { Text = $"Caller: { caller }. Message: { message }", ErrorCategory = (Microsoft.VisualStudio.Shell.TaskErrorCategory)category });
         }
 
         /// <summary>
@@ -50,9 +52,9 @@ namespace NuGetSwitcher.Helper
         /// <param name="project">
         /// Full path to the solution project.
         /// </param>
-        public virtual void AddMessage(string project, string message, TaskErrorCategory category, [CallerMemberName] string caller = "")
+        public virtual void AddMessage(string project, string message, MessageCategory category, [CallerMemberName] string caller = "")
         {
-            ErrorList.Tasks.Add(new ErrorTask { Text = $"Caller: { caller }. Message: { message }", ErrorCategory = category, HierarchyItem = GetProjectHierarchyItem(project), Document = project });
+            ErrorList.Tasks.Add(new ErrorTask { Text = $"Caller: { caller }. Message: { message }", ErrorCategory = (Microsoft.VisualStudio.Shell.TaskErrorCategory)category, HierarchyItem = GetProjectHierarchyItem(project), Document = project });
         }
 
         /// <summary>
@@ -66,7 +68,7 @@ namespace NuGetSwitcher.Helper
 
             if (se == default)
             {
-                AddMessage(exception.Message, TaskErrorCategory.Error, caller);
+                AddMessage(exception.Message, MessageCategory.ER, caller);
             }
             else
             {
@@ -87,7 +89,7 @@ namespace NuGetSwitcher.Helper
         /// </param>
         public virtual void AddMessage(string project, Exception exception, [CallerMemberName] string caller = "")
         {
-            AddMessage(project, exception.Message, TaskErrorCategory.Error, caller);
+            AddMessage(project, exception.Message, MessageCategory.ER, caller);
         }
 
         /// <summary>
@@ -97,7 +99,7 @@ namespace NuGetSwitcher.Helper
         /// </summary>
         public virtual void AddMessage(SwitcherException exception, [CallerMemberName] string caller = "")
         {
-            AddMessage(exception.MsbProject.FullPath, exception.Message, TaskErrorCategory.Error, caller);
+            AddMessage(exception.MsbProject.FullPath, exception.Message, MessageCategory.ER, caller);
         }
 
         /// <summary>
@@ -130,13 +132,11 @@ namespace NuGetSwitcher.Helper
         {
             const int S_OK = 0;
 
-            ThreadHelper.ThrowIfNotOnUIThread();
-
             int exitCode = VsSolution.GetProjectOfUniqueName(project, out IVsHierarchy hierarchyItem);
 
             if (exitCode != S_OK)
             {
-                AddMessage($"Exit code: { exitCode }", TaskErrorCategory.Error);
+                AddMessage($"Exit code: { exitCode }", MessageCategory.ER);
             }
 
             return hierarchyItem;

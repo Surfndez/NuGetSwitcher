@@ -2,7 +2,7 @@
 
 using System;
 
-namespace NuGetSwitcher.Helper.Entity.Error
+namespace NuGetSwitcher.Interface.Entity.Error
 {
     public sealed class SwitcherFileNotFoundException : SwitcherException
     {
