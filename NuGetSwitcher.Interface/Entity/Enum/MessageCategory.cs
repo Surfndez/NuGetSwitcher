@@ -11,7 +11,7 @@
         /// Warning
         /// </summary>
         WG = 1,
-        
+
         /// <summary>
         /// Message
         /// </summary>

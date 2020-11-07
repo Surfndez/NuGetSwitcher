@@ -1,13 +1,11 @@
 ﻿using Microsoft.Build.Evaluation;
 
-using Microsoft.VisualStudio.Shell;
-
 using NuGetSwitcher.Abstract;
 
-using NuGetSwitcher.Helper;
 using NuGetSwitcher.Helper.Entity;
-using NuGetSwitcher.Helper.Entity.Enum;
-using NuGetSwitcher.Helper.Entity.Error;
+
+using NuGetSwitcher.Interface.Contract;
+using NuGetSwitcher.Interface.Entity.Enum;
 
 using NuGetSwitcher.Option;
 
@@ -72,7 +70,7 @@ namespace NuGetSwitcher.Core.Switch
                     item.ItemType = Type.ToString();
                 }
 
-                MessageHelper.AddMessage(reference.DteProject.UniqueName, $"Dependency: { Path.GetFileNameWithoutExtension(item.EvaluatedInclude) } has been switched back. Type: { Type }", TaskErrorCategory.Message);
+                MessageHelper.AddMessage(reference.DteProject.UniqueName, $"Dependency: { Path.GetFileNameWithoutExtension(item.EvaluatedInclude) } has been switched back. Type: { Type }", MessageCategory.ME);
             }
         }
 

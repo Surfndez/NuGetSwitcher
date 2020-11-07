@@ -1,6 +1,7 @@
 ﻿using Microsoft.Build.Evaluation;
 
 using NuGetSwitcher.Interface.Entity;
+using NuGetSwitcher.Interface.Entity.Error;
 
 using System.Collections.Generic;
 

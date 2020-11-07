@@ -2,8 +2,8 @@
 using NuGet.Frameworks;
 using NuGet.ProjectModel;
 
-using NuGetSwitcher.Helper.Entity;
-using NuGetSwitcher.Helper.Entity.Error;
+using NuGetSwitcher.Interface.Entity;
+using NuGetSwitcher.Interface.Entity.Error;
 
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace NuGetSwitcher.Helper
         /// </summary>
         /// 
         /// <exception cref="SwitcherFileNotFoundException"/>
-        public static LockFile GetLockFile(ProjectReference reference)
+        public static LockFile GetLockFile(IProjectReference reference)
         {
             return LockFileUtilities.GetLockFile(reference.LockFile, NullLogger.Instance) ?? new LockFile();
         }
@@ -31,7 +31,7 @@ namespace NuGetSwitcher.Helper
         /// </summary>
         /// 
         /// <exception cref="SwitcherFileNotFoundException"/>
-        public static LockFileTarget GetProjectTarget(ProjectReference reference)
+        public static LockFileTarget GetProjectTarget(IProjectReference reference)
         {
             return GetLockFile(reference).GetTarget(new NuGetFramework(reference.TFI, new Version(reference.TFV), string.Empty), null) ??
 

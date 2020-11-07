@@ -3,7 +3,10 @@
 using Microsoft.VisualStudio.Shell;
 
 using NuGetSwitcher.Helper.Entity;
-using NuGetSwitcher.Helper.Entity.Error;
+
+using NuGetSwitcher.Interface.Contract;
+using NuGetSwitcher.Interface.Entity;
+using NuGetSwitcher.Interface.Entity.Error;
 
 using System;
 using System.Collections.Generic;
@@ -29,10 +32,10 @@ namespace NuGetSwitcher.Helper
         /// that are also loaded into 
         /// the GPC.
         /// </summary>
-        public virtual IEnumerable<ProjectReference> GetLoadedProject()
+        public virtual IEnumerable<IProjectReference> GetLoadedProject()
         {
-            List<ProjectReference> projects = new
-            List<ProjectReference>(30);
+            List<IProjectReference> projects = new
+            List<IProjectReference>(30);
 
             foreach (EnvDTE.Project dteProject in DTE.Solution.Projects)
             {

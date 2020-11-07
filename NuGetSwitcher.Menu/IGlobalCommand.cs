@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.Shell;
 
-using NuGetSwitcher.Helper;
+using NuGetSwitcher.Interface.Contract;
 
 using System;
 using System.ComponentModel.Design;

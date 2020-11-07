@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.Shell;
 
-using NuGetSwitcher.Helper;
-using NuGetSwitcher.Helper.Entity.Enum;
+using NuGetSwitcher.Interface.Contract;
+using NuGetSwitcher.Interface.Entity.Enum;
 
 using NuGetSwitcher.Option.Entity;
 
@@ -79,7 +79,7 @@ namespace NuGetSwitcher.Option
             {
                 if (!Directory.Exists(directory))
                 {
-                    MessageHelper.AddMessage($"Directory: { directory } does not exist and will be skipped", TaskErrorCategory.Warning);
+                    MessageHelper.AddMessage($"Directory: { directory } does not exist and will be skipped", MessageCategory.WG);
 
                     continue;
                 }
@@ -94,7 +94,7 @@ namespace NuGetSwitcher.Option
                     }
                     else
                     {
-                        MessageHelper.AddMessage($"Project: { absolutePath } is a duplicate and will be skipped", TaskErrorCategory.Warning);
+                        MessageHelper.AddMessage($"Project: { absolutePath } is a duplicate and will be skipped", MessageCategory.WG);
                     }
                 }
             }

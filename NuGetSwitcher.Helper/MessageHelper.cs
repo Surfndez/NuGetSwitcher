@@ -38,7 +38,7 @@ namespace NuGetSwitcher.Helper
         /// </summary>
         public virtual void AddMessage(string message, MessageCategory category, [CallerMemberName] string caller = "")
         {
-            ErrorList.Tasks.Add(new ErrorTask { Text = $"Caller: { caller }. Message: { message }", ErrorCategory = (Microsoft.VisualStudio.Shell.TaskErrorCategory)category });
+            ErrorList.Tasks.Add(new ErrorTask { Text = $"Caller: { caller }. Message: { message }", ErrorCategory = (TaskErrorCategory)category });
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace NuGetSwitcher.Helper
         /// </param>
         public virtual void AddMessage(string project, string message, MessageCategory category, [CallerMemberName] string caller = "")
         {
-            ErrorList.Tasks.Add(new ErrorTask { Text = $"Caller: { caller }. Message: { message }", ErrorCategory = (Microsoft.VisualStudio.Shell.TaskErrorCategory)category, HierarchyItem = GetProjectHierarchyItem(project), Document = project });
+            ErrorList.Tasks.Add(new ErrorTask { Text = $"Caller: { caller }. Message: { message }", ErrorCategory = (TaskErrorCategory)category, HierarchyItem = GetProjectHierarchyItem(project), Document = project });
         }
 
         /// <summary>

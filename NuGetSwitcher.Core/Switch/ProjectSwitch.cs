@@ -6,10 +6,10 @@ using NuGet.ProjectModel;
 
 using NuGetSwitcher.Abstract;
 
-using NuGetSwitcher.Helper;
-using NuGetSwitcher.Helper.Entity;
-using NuGetSwitcher.Helper.Entity.Enum;
-using NuGetSwitcher.Helper.Entity.Error;
+using NuGetSwitcher.Interface.Contract;
+using NuGetSwitcher.Interface.Entity;
+using NuGetSwitcher.Interface.Entity.Enum;
+using NuGetSwitcher.Interface.Entity.Error;
 
 using NuGetSwitcher.Option;
 
@@ -44,12 +44,12 @@ namespace NuGetSwitcher.Core.Switch
         /// </remarks>
         public override void Switch()
         {
-            IEnumerable<ProjectReference> references = ProjectHelper.GetLoadedProject();
+            IEnumerable<IProjectReference> references = ProjectHelper.GetLoadedProject();
 
             HashSet<string> include = new
             HashSet<string>();
 
-            void Executor(ProjectReference reference, LockFileTargetLibrary library, string absolutePath)
+            void Executor(IProjectReference reference, LockFileTargetLibrary library, string absolutePath)
             {
                 SwitchSysDependency(reference, library);
                 SwitchPkgDependency(reference, library, absolutePath);
@@ -67,7 +67,7 @@ namespace NuGetSwitcher.Core.Switch
         /// listed in the FrameworkAssemblies section
         /// of the lock file.
         /// </summary>
-        public virtual void SwitchSysDependency(ProjectReference reference, LockFileTargetLibrary library)
+        public virtual void SwitchSysDependency(IProjectReference reference, LockFileTargetLibrary library)
         {
             Dictionary<string, string> metadata = new
             Dictionary<string, string>(1);
@@ -89,7 +89,7 @@ namespace NuGetSwitcher.Core.Switch
         /// <remarks>
         /// Implicit dependencies mean transitive.
         /// </remarks>
-        public virtual void SwitchPkgDependency(ProjectReference reference, LockFileTargetLibrary library, string absolutePath)
+        public virtual void SwitchPkgDependency(IProjectReference reference, LockFileTargetLibrary library, string absolutePath)
         {
             /*
              * References can be represented by several values in

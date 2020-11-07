@@ -1,9 +1,10 @@
 ﻿using NuGet.ProjectModel;
 
-using NuGetSwitcher.Helper;
-using NuGetSwitcher.Helper.Entity;
-using NuGetSwitcher.Helper.Entity.Enum;
-using NuGetSwitcher.Helper.Entity.Error;
+using NuGetSwitcher.Interface.Contract;
+
+using NuGetSwitcher.Interface.Entity;
+using NuGetSwitcher.Interface.Entity.Enum;
+using NuGetSwitcher.Interface.Entity.Error;
 
 using NuGetSwitcher.Option;
 
@@ -30,7 +31,7 @@ namespace NuGetSwitcher.Core.Switch
         /// <exception cref="ArgumentException">
         public override void Switch()
         {
-            void Executor(ProjectReference reference, LockFileTargetLibrary library, string absolutePath)
+            void Executor(IProjectReference reference, LockFileTargetLibrary library, string absolutePath)
             {
                 SwitchSysDependency(reference, library);
                 SwitchPkgDependency(reference, library, absolutePath);

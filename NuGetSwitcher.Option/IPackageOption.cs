@@ -1,4 +1,4 @@
-﻿using NuGetSwitcher.Helper.Entity.Enum;
+﻿using NuGetSwitcher.Interface.Entity.Enum;
 
 using System;
 using System.Collections.ObjectModel;

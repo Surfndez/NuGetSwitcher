@@ -6,9 +6,10 @@ using NuGet.ProjectModel;
 
 using NuGetSwitcher.Helper;
 using NuGetSwitcher.Helper.Entity;
-using NuGetSwitcher.Helper.Entity.Enum;
-using NuGetSwitcher.Helper.Entity.Error;
-
+using NuGetSwitcher.Interface.Contract;
+using NuGetSwitcher.Interface.Entity;
+using NuGetSwitcher.Interface.Entity.Enum;
+using NuGetSwitcher.Interface.Entity.Error;
 using NuGetSwitcher.Option;
 
 using System;
@@ -109,13 +110,13 @@ namespace NuGetSwitcher.Abstract
         /// <exception cref="FileNotFoundException"/>
         /// 
         /// <exception cref="ArgumentException">
-        protected virtual void IterateAndExecute(IEnumerable<ProjectReference> references, Action<ProjectReference, LockFileTargetLibrary, string> func)
+        protected virtual void IterateAndExecute(IEnumerable<IProjectReference> references, Action<IProjectReference, LockFileTargetLibrary, string> func)
         {
             MessageHelper.Clear();
 
             ReadOnlyDictionary<string, string> items = PackageOption.GetIncludeItems(Type);
 
-            foreach (ProjectReference reference in references)
+            foreach (IProjectReference reference in references)
             {
                 foreach (LockFileTargetLibrary library in PackageHelper.GetProjectTarget(reference).Libraries)
                 {
@@ -166,7 +167,7 @@ namespace NuGetSwitcher.Abstract
         /// <returns>
         /// Returns false for duplicate <paramref name="unevaluatedInclude"/> values.
         /// </returns>
-        protected virtual bool AddReference(ProjectReference reference, ReferenceType type, string unevaluatedInclude, Dictionary<string, string> metadata)
+        protected virtual bool AddReference(IProjectReference reference, ReferenceType type, string unevaluatedInclude, Dictionary<string, string> metadata)
         {
             bool output = true;
 
@@ -190,7 +191,7 @@ namespace NuGetSwitcher.Abstract
 
             if (output)
             {
-                MessageHelper.AddMessage(reference.DteProject.UniqueName, $"Dependency: { Path.GetFileName(unevaluatedInclude) } has been added. Type: { type }", TaskErrorCategory.Message);
+                MessageHelper.AddMessage(reference.DteProject.UniqueName, $"Dependency: { Path.GetFileName(unevaluatedInclude) } has been added. Type: { type }", MessageCategory.ME);
             }
 
             return output;
