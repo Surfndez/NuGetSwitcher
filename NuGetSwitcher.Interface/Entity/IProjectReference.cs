@@ -1,7 +1,14 @@
-﻿namespace NuGetSwitcher.Interface.Entity
+﻿using Microsoft.Build.Evaluation;
+
+namespace NuGetSwitcher.Interface.Entity
 {
     public interface IProjectReference
     {
+        Project MsbProject
+        {
+            get;
+        }
+
         string UniqueName
         {
             get;
@@ -60,5 +67,7 @@
         {
             get;
         }
+
+        void Save();
     }
 }

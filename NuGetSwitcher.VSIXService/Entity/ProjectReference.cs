@@ -27,7 +27,7 @@ namespace NuGetSwitcher.Helper.Entity
 
         public string UniqueName
         {
-            get => DteProject.UniqueName;
+            get => MsbProject.FullPath;
         }
 
         /// <summary>
@@ -107,7 +107,9 @@ namespace NuGetSwitcher.Helper.Entity
 
                     if (MsbProject.GetItems(nameof(ReferenceType.PackageReference)).Any())
                     {
+#pragma warning disable S2372 // Exceptions should not be thrown from property getters
                         throw new SwitcherFileNotFoundException(MsbProject, $"File { path }. Message: Project lock file not found");
+#pragma warning restore S2372 // Exceptions should not be thrown from property getters
                     }
                 }
 

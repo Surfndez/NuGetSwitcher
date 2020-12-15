@@ -1,11 +1,7 @@
-﻿using EnvDTE;
-
-using Microsoft.VisualStudio.Shell;
-
+﻿using NuGet.Common;
+using NuGet.Frameworks;
 using NuGet.ProjectModel;
 
-using NuGetSwitcher.Helper;
-using NuGetSwitcher.Helper.Entity;
 using NuGetSwitcher.Interface.Contract;
 using NuGetSwitcher.Interface.Entity;
 using NuGetSwitcher.Interface.Entity.Enum;
@@ -18,7 +14,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 
-namespace NuGetSwitcher.Abstract
+namespace NuGetSwitcher.Core.Abstract
 {
     public abstract class AbstractSwitch
     {
@@ -56,21 +52,6 @@ namespace NuGetSwitcher.Abstract
             set;
         }
 
-        /// <summary>
-        /// Returns the DTE object if the call is
-        /// made from Visual Studio, otherwise 
-        /// null.
-        /// </summary>
-        ///
-        /// <remarks>
-        /// DTE - Development Tools Environment. See: https://www.viva64.com/en/a/0082/#ID4ED3F15B53.
-        /// </remarks>
-        protected DTE DTE
-        {
-            get;
-            private set;
-        }
-
         /// <param name="isVSIX">
         /// Indicates that the call 
         /// is from Visual Studio.
@@ -79,16 +60,40 @@ namespace NuGetSwitcher.Abstract
         {
             IsVSIX = isVSIX;
 
-            if (IsVSIX)
-            {
-                DTE = Package.GetGlobalService(typeof(DTE)) as DTE;
-            }
-
             Type = type;
 
             PackageOption = packageOption;
             ProjectHelper = projectHelper;
             MessageHelper = messageHelper;
+        }
+
+        /// <summary>
+        /// Returns the <see cref="LockFile"/> object that 
+        /// represents the contents of project.assets.json. 
+        /// Used to identify project dependencies.
+        /// </summary>
+        /// 
+        /// <exception cref="SwitcherFileNotFoundException"/>
+        protected virtual LockFile GetLockFile(IProjectReference reference)
+        {
+            return LockFileUtilities.GetLockFile(reference.LockFile, NullLogger.Instance) ?? new LockFile();
+        }
+
+        /// <summary>
+        /// Returns the <see cref="LockFileTarget"/> section
+        /// for a project TFM from the lock file provided by 
+        /// <see cref="LockFile"/>.
+        /// </summary>
+        /// 
+        /// <exception cref="SwitcherFileNotFoundException"/>
+        protected virtual LockFileTarget GetProjectTarget(IProjectReference reference)
+        {
+            return GetLockFile(reference).GetTarget(new NuGetFramework(reference.TFI, new Version(reference.TFV), string.Empty), null) ??
+
+                new LockFileTarget()
+                {
+                    Libraries = new List<LockFileTargetLibrary>()
+                };
         }
 
         /// <summary>
@@ -118,7 +123,7 @@ namespace NuGetSwitcher.Abstract
 
             foreach (IProjectReference reference in references)
             {
-                foreach (LockFileTargetLibrary library in PackageHelper.GetProjectTarget(reference).Libraries)
+                foreach (LockFileTargetLibrary library in GetProjectTarget(reference).Libraries)
                 {
                     if (items.TryGetValue(library.Name, out string absolutePath))
                     {
@@ -191,7 +196,7 @@ namespace NuGetSwitcher.Abstract
 
             if (output)
             {
-                MessageHelper.AddMessage(reference.DteProject.UniqueName, $"Dependency: { Path.GetFileName(unevaluatedInclude) } has been added. Type: { type }", MessageCategory.ME);
+                MessageHelper.AddMessage(reference.MsbProject.FullPath, $"Dependency: { Path.GetFileName(unevaluatedInclude) } has been added. Type: { type }", MessageCategory.ME);
             }
 
             return output;

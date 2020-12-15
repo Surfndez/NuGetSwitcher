@@ -1,6 +1,6 @@
-﻿using NuGetSwitcher.Abstract;
+﻿using NuGetSwitcher.Core.Abstract;
 
-using NuGetSwitcher.Menu;
+using NuGetSwitcher.Interface.Contract;
 
 using NuGetSwitcher.Option;
 

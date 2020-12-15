@@ -1,7 +1,6 @@
 ﻿using Microsoft.Build.Evaluation;
 
 using NuGetSwitcher.Interface.Entity;
-using NuGetSwitcher.Interface.Entity.Error;
 
 using System.Collections.Generic;
 
@@ -29,22 +28,16 @@ namespace NuGetSwitcher.Interface.Contract
         /// <summary>
         /// Unloads projects from GPC.
         /// </summary>
-        /// 
-        /// <exception cref="SwitcherInvalidOperationException"/>
         void UnloadProject();
 
         /// <summary>
         /// Unloads projects from GPC.
         /// </summary>
-        /// 
-        /// <exception cref="SwitcherInvalidOperationException"/>
         void UnloadProject(Project project);
 
         /// <summary>
         /// Unloads projects from GPC.
         /// </summary>
-        /// 
-        /// <exception cref="SwitcherInvalidOperationException"/>
         void UnloadProject(string project);
     }
 }

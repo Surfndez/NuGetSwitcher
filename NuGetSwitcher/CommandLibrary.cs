@@ -1,4 +1,4 @@
-﻿using NuGetSwitcher.Helper;
+﻿using NuGetSwitcher.Interface.Contract;
 
 using NuGetSwitcher.Menu;
 

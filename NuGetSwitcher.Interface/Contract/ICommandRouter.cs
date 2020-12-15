@@ -1,4 +1,4 @@
-﻿namespace NuGetSwitcher.Menu
+﻿namespace NuGetSwitcher.Interface.Contract
 {
     public interface ICommandRouter
     {

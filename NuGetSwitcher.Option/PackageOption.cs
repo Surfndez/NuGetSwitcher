@@ -60,6 +60,45 @@ namespace NuGetSwitcher.Option
         }
 
         /// <summary>
+        /// Returns the structure containing an array of
+        /// directories to search for and directories to
+        /// exclude from searches.
+        /// </summary>
+        /// 
+        /// <exception cref="FileNotFoundException"/>
+        /// 
+        /// <exception cref="ArgumentException">
+        protected virtual FileOption GetFileOption(ReferenceType type)
+        {
+            FileOption option;
+
+            switch (type)
+            {
+                case ReferenceType.ProjectReference:
+                    option = new FileOption(IncludeProjectFile, ExcludeProjectFile, "*.csproj");
+                    break;
+                case ReferenceType.Reference:
+                    option = new FileOption(IncludeLibraryFile, ExcludeProjectFile, "*.dll");
+                    break;
+                default: throw new ArgumentException($"Reference type not supported: { type }");
+            }
+
+            return option;
+        }
+
+        /// <summary>
+        /// Returns true if a directory containing the file
+        /// is found. Level at which the file is located is 
+        /// not taken into account.
+        /// </summary>
+        protected virtual bool Contains(string[] excludeDirectories, string absolutePath)
+        {
+            const int NOT_FOUND = -1;
+
+            return excludeDirectories.Any(d => absolutePath.IndexOf(d) != NOT_FOUND);
+        }
+
+        /// <summary>
         /// Returns a dictionary where file names are 
         /// used as keys, and absolute file paths are 
         /// values.
@@ -100,45 +139,6 @@ namespace NuGetSwitcher.Option
             }
 
             return new ReadOnlyDictionary<string, string>(output);
-        }
-
-        /// <summary>
-        /// Returns the structure containing an array of
-        /// directories to search for and directories to
-        /// exclude from searches.
-        /// </summary>
-        /// 
-        /// <exception cref="FileNotFoundException"/>
-        /// 
-        /// <exception cref="ArgumentException">
-        protected virtual FileOption GetFileOption(ReferenceType type)
-        {
-            FileOption option;
-
-            switch (type)
-            {
-                case ReferenceType.ProjectReference:
-                    option = new FileOption(IncludeProjectFile, ExcludeProjectFile, "*.csproj");
-                    break;
-                case ReferenceType.Reference:
-                    option = new FileOption(IncludeLibraryFile, ExcludeProjectFile, "*.dll");
-                    break;
-                default: throw new ArgumentException($"Reference type not supported: { type }");
-            }
-
-            return option;
-        }
-
-        /// <summary>
-        /// Returns true if a directory containing the file
-        /// is found. Level at which the file is located is 
-        /// not taken into account.
-        /// </summary>
-        protected virtual bool Contains(string[] excludeDirectories, string absolutePath)
-        {
-            const int NOT_FOUND = -1;
-
-            return excludeDirectories.Any(d => absolutePath.IndexOf(d) != NOT_FOUND);
         }
     }
 }

@@ -1,15 +1,14 @@
 ﻿using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-using NuGetSwitcher.Abstract;
-
+using NuGetSwitcher.Core.Abstract;
 using NuGetSwitcher.Core.Router;
 using NuGetSwitcher.Core.Switch;
 
 using NuGetSwitcher.Helper;
-using NuGetSwitcher.Helper.Entity.Enum;
 
-using NuGetSwitcher.Menu;
+using NuGetSwitcher.Interface.Contract;
+using NuGetSwitcher.Interface.Entity.Enum;
 
 using NuGetSwitcher.Option;
 

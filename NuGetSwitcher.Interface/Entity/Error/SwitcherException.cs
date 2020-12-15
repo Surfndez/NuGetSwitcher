@@ -4,7 +4,9 @@ using System;
 
 namespace NuGetSwitcher.Interface.Entity.Error
 {
+#pragma warning disable S3925 // "ISerializable" should be implemented correctly
     public class SwitcherException : Exception
+#pragma warning restore S3925 // "ISerializable" should be implemented correctly
     {
         public Project MsbProject
         {
