@@ -102,7 +102,7 @@ namespace NuGetSwitcher.Core.Abstract
         /// of reference to 
         /// another.
         /// </summary>
-        public abstract void Switch();
+        public abstract IEnumerable<string> Switch();
 
         /// <summary>
         /// Iterates through the dependencies provided in the lock file and matches 

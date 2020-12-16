@@ -26,7 +26,7 @@ namespace NuGetSwitcher.Core.Switch
         /// </summary>
         /// 
         /// <exception cref="SwitcherException"/>
-        public override void Switch()
+        public override IEnumerable<string> Switch()
         {
             MessageHelper.Clear();
 
@@ -37,6 +37,8 @@ namespace NuGetSwitcher.Core.Switch
 
                 reference.Save();
             }
+
+            return default;
         }
 
         /// <summary>

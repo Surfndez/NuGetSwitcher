@@ -40,17 +40,24 @@ namespace NuGetSwitcher.Core.Switch
         /// the work will be included in 
         /// the solution.
         /// </remarks>
-        public override void Switch()
+        public override IEnumerable<string> Switch()
         {
+            HashSet<string> output = new
+            HashSet<string>();
+
             IEnumerable<IProjectReference> references = ProjectHelper.GetLoadedProject();
 
             void Executor(IProjectReference reference, LockFileTargetLibrary library, string absolutePath)
             {
                 SwitchSysDependency(reference, library);
                 SwitchPkgDependency(reference, library, absolutePath);
+
+                output.Add(absolutePath);
             }
 
             IterateAndExecute(references, Executor);
+
+            return output;
         }
 
         /// <summary>

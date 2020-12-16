@@ -9,6 +9,7 @@ using NuGetSwitcher.Interface.Entity.Error;
 using NuGetSwitcher.Option;
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace NuGetSwitcher.Core.Switch
@@ -29,7 +30,7 @@ namespace NuGetSwitcher.Core.Switch
         /// <exception cref="FileNotFoundException"/>
         /// 
         /// <exception cref="ArgumentException">
-        public override void Switch()
+        public override IEnumerable<string> Switch()
         {
             void Executor(IProjectReference reference, LockFileTargetLibrary library, string absolutePath)
             {
@@ -38,6 +39,8 @@ namespace NuGetSwitcher.Core.Switch
             }
 
             IterateAndExecute(ProjectHelper.GetLoadedProject(), Executor);
+
+            return default;
         }
     }
 }
