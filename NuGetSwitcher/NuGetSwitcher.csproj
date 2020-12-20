@@ -87,13 +87,13 @@
       <Project>{ce22fe09-7e92-4778-ab22-66a8b3d79117}</Project>
       <Name>NuGetSwitcher.Interface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NuGetSwitcher.Menu\NuGetSwitcher.Menu.csproj">
-      <Project>{2d70f76a-789a-433d-8fd1-71f2b3fde233}</Project>
-      <Name>NuGetSwitcher.Menu</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NuGetSwitcher.Option\NuGetSwitcher.Option.csproj">
+    <ProjectReference Include="..\NuGetSwitcher.VSIXOption\NuGetSwitcher.VSIXOption.csproj">
       <Project>{860d1167-d3bb-43b9-8ee3-251f4a212d11}</Project>
-      <Name>NuGetSwitcher.Option</Name>
+      <Name>NuGetSwitcher.VSIXOption</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NuGetSwitcher.VSIXMenu\NuGetSwitcher.VSIXMenu.csproj">
+      <Project>{2d70f76a-789a-433d-8fd1-71f2b3fde233}</Project>
+      <Name>NuGetSwitcher.VSIXMenu</Name>
     </ProjectReference>
     <ProjectReference Include="..\NuGetSwitcher.VSIXService\NuGetSwitcher.VSIXService.csproj">
       <Project>{ecebf537-a813-4da1-acf9-b4b1e087eba4}</Project>
@@ -143,6 +143,7 @@
       <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.ProjectModel'" />
       <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.Protocol'" />
       <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'NuGet.Versioning'" />
+      <VSIXSourceItem Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'CliWrap'" />
     </ItemGroup>
   </Target>
 </Project>

@@ -5,7 +5,7 @@ using NuGetSwitcher.Core.Abstract;
 using NuGetSwitcher.Core.Router;
 using NuGetSwitcher.Core.Switch;
 
-using NuGetSwitcher.Helper;
+using NuGetSwitcher.VSIXService;
 
 using NuGetSwitcher.Interface.Contract;
 using NuGetSwitcher.Interface.Entity.Enum;
@@ -58,22 +58,22 @@ namespace NuGetSwitcher
 
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
-            IMessageHelper messageHelper = new MessageHelper(vsSolution, new ErrorListProvider(this));
-            IProjectHelper projectHelper = new ProjectHelper();
+            IMessageProvider messageProvider = new MessageProvider(vsSolution, new ErrorListProvider(this));
+            IProjectProvider projectProvider = new ProjectProvider();
 
-            IPackageOption packageOption = (PackageOption)GetDialogPage(typeof(PackageOption));
+            IOptionProvider packageOption = (PackageOption)GetDialogPage(typeof(PackageOption));
 
-            ((PackageOption)packageOption).Init(messageHelper);
+            ((PackageOption)packageOption).Init(messageProvider);
 
-            AbstractSwitch projectSwtich = new ProjectSwitch(true, ReferenceType.ProjectReference, packageOption, projectHelper, messageHelper);
-            AbstractSwitch packageSwitch = new PackageSwitch(true, ReferenceType.PackageReference, packageOption, projectHelper, messageHelper);
-            AbstractSwitch librarySwitch = new LibrarySwitch(true, ReferenceType.Reference, packageOption, projectHelper, messageHelper);
+            AbstractSwitch projectSwtich = new ProjectSwitch(true, ReferenceType.ProjectReference, packageOption, projectProvider, messageProvider);
+            AbstractSwitch packageSwitch = new PackageSwitch(true, ReferenceType.PackageReference, packageOption, projectProvider, messageProvider);
+            AbstractSwitch librarySwitch = new LibrarySwitch(true, ReferenceType.Reference       , packageOption, projectProvider, messageProvider);
 
             ICommandRouter commandRouter = new CommandRouter(packageOption, projectSwtich, packageSwitch, librarySwitch);
 
-            new CommandProject(commandRouter, messageHelper).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0100);
-            new CommandPackage(commandRouter, messageHelper).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0200);
-            new CommandLibrary(commandRouter, messageHelper).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0300);
+            new CommandProject(commandRouter, messageProvider).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0100);
+            new CommandPackage(commandRouter, messageProvider).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0200);
+            new CommandLibrary(commandRouter, messageProvider).Initialize(oleMenuCommandService, new Guid("c6018e68-fcab-41d2-a34a-42f7df92b162"), 0x0300);
         }
     }
 }

@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace NuGetSwitcher.Helper.Entity
+namespace NuGetSwitcher.VSIXService.Entity
 {
     public sealed class ProjectReference : IProjectReference
     {
@@ -77,47 +77,6 @@ namespace NuGetSwitcher.Helper.Entity
         }
 
         /// <summary>
-        /// Returns the path to the project.assets.json
-        /// lock file containing the project dependency
-        /// graph.
-        /// </summary>
-        ///
-        /// <exception cref="SwitcherFileNotFoundException"/>
-        /// 
-        /// <remarks>
-        /// project.assets.json lists all the dependencies of the project. It is
-        /// created in the /obj folder when using dotnet restore or dotnet build 
-        /// as it implicitly calls restore before build, or msbuid.exe /t:restore
-        /// with msbuild CLI.
-        /// </remarks>
-        public string LockFile
-        {
-            get
-            {
-                string path = Path.Combine(MsbProject.DirectoryPath, "obj\\project.assets.json");
-
-                if (!File.Exists(path))
-                {
-                    /*
-                     * If there are no NuGet 
-                     * dependencies, then do 
-                     * not need to throw the 
-                     * exception.
-                     */
-
-                    if (MsbProject.GetItems(nameof(ReferenceType.PackageReference)).Any())
-                    {
-#pragma warning disable S2372 // Exceptions should not be thrown from property getters
-                        throw new SwitcherFileNotFoundException(MsbProject, $"File { path }. Message: Project lock file not found");
-#pragma warning restore S2372 // Exceptions should not be thrown from property getters
-                    }
-                }
-
-                return path;
-            }
-        }
-
-        /// <summary>
         /// Checks that the project 
         /// is inside the directory 
         /// of the current solution.
@@ -171,6 +130,47 @@ namespace NuGetSwitcher.Helper.Entity
             IsTemp = !Directory.GetFiles(Path.GetDirectoryName(DteProject.DTE.Solution.FullName), Path.GetFileName(MsbProject.FullPath), SearchOption.AllDirectories).Any();
         }
 
+        /// <summary>
+        /// Returns the path to the project.assets.json
+        /// lock file containing the project dependency
+        /// graph.
+        /// </summary>
+        ///
+        /// <exception cref="SwitcherFileNotFoundException"/>
+        /// 
+        /// <remarks>
+        /// project.assets.json lists all the dependencies of the project. It is
+        /// created in the /obj folder when using dotnet restore or dotnet build 
+        /// as it implicitly calls restore before build, or msbuid.exe /t:restore
+        /// with msbuild CLI.
+        /// </remarks>
+        public string GetLockFile()
+        {
+            string path = Path.Combine(MsbProject.DirectoryPath, "obj\\project.assets.json");
+
+            if (!File.Exists(path))
+            {
+                /*
+                 * If there are no NuGet 
+                 * dependencies, then do 
+                 * not need to throw the 
+                 * exception.
+                 */
+
+#pragma warning disable S1066 // Collapsible "if" statements should be merged
+                if (MsbProject.GetItems(nameof(ReferenceType.PackageReference)).Any())
+#pragma warning restore S1066 // Collapsible "if" statements should be merged
+                {
+                    throw new SwitcherFileNotFoundException(MsbProject, $"File { path }. Message: Project lock file not found");
+                }
+            }
+
+            return path;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public void Save()
         {
             MsbProject.Save();

@@ -5,7 +5,7 @@ using NuGetSwitcher.Interface.Contract;
 using System;
 using System.ComponentModel.Design;
 
-namespace NuGetSwitcher.Menu
+namespace NuGetSwitcher.VSIXMenu
 {
     /// <summary>
     /// Basic interface of the 
@@ -20,7 +20,7 @@ namespace NuGetSwitcher.Menu
             private set;
         }
 
-        public IMessageHelper MessageHelper
+        public IMessageProvider MessageProvider
         {
             get;
             private set;
@@ -32,10 +32,10 @@ namespace NuGetSwitcher.Menu
             private set;
         }
 
-        protected GlobalCommand(ICommandRouter commandRouter, IMessageHelper messageHelper)
+        protected GlobalCommand(ICommandRouter commandRouter, IMessageProvider messageProvider)
         {
-            CommandRouter = commandRouter;
-            MessageHelper = messageHelper;
+            CommandRouter   = commandRouter;
+            MessageProvider = messageProvider;
 
             Name = GetType().UnderlyingSystemType.Name;
         }

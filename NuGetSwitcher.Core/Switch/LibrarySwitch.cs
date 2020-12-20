@@ -16,7 +16,7 @@ namespace NuGetSwitcher.Core.Switch
 {
     public class LibrarySwitch : ProjectSwitch
     {
-        public LibrarySwitch(bool isVSIX, ReferenceType type, IPackageOption packageOption, IProjectHelper projectHelper, IMessageHelper messageHelper) : base(isVSIX, type, packageOption, projectHelper, messageHelper)
+        public LibrarySwitch(bool isVSIX, ReferenceType type, IOptionProvider packageOption, IProjectProvider projectHelper, IMessageProvider messageHelper) : base(isVSIX, type, packageOption, projectHelper, messageHelper)
         { }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace NuGetSwitcher.Core.Switch
                 SwitchPkgDependency(reference, library, absolutePath);
             }
 
-            IterateAndExecute(ProjectHelper.GetLoadedProject(), Executor);
+            IterateAndExecute(ProjectProvider.GetLoadedProject(), Executor);
 
             return default;
         }

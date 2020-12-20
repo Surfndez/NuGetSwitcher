@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.29814.53
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.Core", "NuGetSwitcher.Core\NuGetSwitcher.Core.csproj", "{67351706-56B0-47D4-891E-5BF7F793E7DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.Option", "NuGetSwitcher.Option\NuGetSwitcher.Option.csproj", "{860D1167-D3BB-43B9-8EE3-251F4A212D11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.VSIXOption", "NuGetSwitcher.VSIXOption\NuGetSwitcher.VSIXOption.csproj", "{860D1167-D3BB-43B9-8EE3-251F4A212D11}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGetSwitcher", "NuGetSwitcher\NuGetSwitcher.csproj", "{84B1229D-B179-4211-975F-AE016DCC9C58}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.Menu", "NuGetSwitcher.Menu\NuGetSwitcher.Menu.csproj", "{2D70F76A-789A-433D-8FD1-71F2B3FDE233}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.VSIXMenu", "NuGetSwitcher.VSIXMenu\NuGetSwitcher.VSIXMenu.csproj", "{2D70F76A-789A-433D-8FD1-71F2B3FDE233}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetSwitcher.Interface", "NuGetSwitcher.Interface\NuGetSwitcher.Interface.csproj", "{CE22FE09-7E92-4778-AB22-66A8B3D79117}"
 EndProject

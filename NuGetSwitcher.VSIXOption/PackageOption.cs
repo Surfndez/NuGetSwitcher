@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 namespace NuGetSwitcher.Option
 {
     [Guid("00000000-0000-0000-0000-000000000000")]
-    public class PackageOption : DialogPage, IPackageOption
+    public class PackageOption : DialogPage, IOptionProvider
     {
         /// <summary>
         /// For internal use only.
@@ -48,13 +48,13 @@ namespace NuGetSwitcher.Option
             set;
         }
 
-        protected IMessageHelper MessageHelper
+        protected IMessageProvider MessageHelper
         {
             get;
             set;
         }
 
-        public void Init(IMessageHelper messageHelper)
+        public void Init(IMessageProvider messageHelper)
         {
             MessageHelper = messageHelper;
         }

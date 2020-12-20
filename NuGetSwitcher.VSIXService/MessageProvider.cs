@@ -8,9 +8,9 @@ using NuGetSwitcher.Interface.Entity.Error;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace NuGetSwitcher.Helper
+namespace NuGetSwitcher.VSIXService
 {
-    public class MessageHelper : IMessageHelper
+    public class MessageProvider : IMessageProvider
     {
         protected IVsSolution VsSolution
         {
@@ -24,7 +24,7 @@ namespace NuGetSwitcher.Helper
             set;
         }
 
-        public MessageHelper(IVsSolution vsSolution, ErrorListProvider errorList)
+        public MessageProvider(IVsSolution vsSolution, ErrorListProvider errorList)
         {
             VsSolution = vsSolution;
 

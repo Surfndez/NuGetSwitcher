@@ -58,15 +58,12 @@ namespace NuGetSwitcher.Interface.Entity
             get;
         }
 
-        string LockFile
-        {
-            get;
-        }
-
         bool IsTemp
         {
             get;
         }
+
+        string GetLockFile();
 
         void Save();
     }

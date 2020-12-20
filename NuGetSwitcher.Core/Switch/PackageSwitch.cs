@@ -17,7 +17,7 @@ namespace NuGetSwitcher.Core.Switch
 {
     public class PackageSwitch : AbstractSwitch
     {
-        public PackageSwitch(bool isVSIX, ReferenceType type, IPackageOption packageOption, IProjectHelper projectHelper, IMessageHelper messageHelper) : base(isVSIX, type, packageOption, projectHelper, messageHelper)
+        public PackageSwitch(bool isVSIX, ReferenceType type, IOptionProvider packageOption, IProjectProvider projectHelper, IMessageProvider messageHelper) : base(isVSIX, type, packageOption, projectHelper, messageHelper)
         { }
 
         /// <summary>
@@ -28,9 +28,9 @@ namespace NuGetSwitcher.Core.Switch
         /// <exception cref="SwitcherException"/>
         public override IEnumerable<string> Switch()
         {
-            MessageHelper.Clear();
+            MessageProvider.Clear();
 
-            foreach (IProjectReference reference in ProjectHelper.GetLoadedProject())
+            foreach (IProjectReference reference in ProjectProvider.GetLoadedProject())
             {
                 SwitchDependency(reference, ReferenceType.Reference);
                 SwitchDependency(reference, ReferenceType.ProjectReference);
@@ -68,7 +68,7 @@ namespace NuGetSwitcher.Core.Switch
                     item.ItemType = Type.ToString();
                 }
 
-                MessageHelper.AddMessage(reference.UniqueName, $"Dependency: { Path.GetFileNameWithoutExtension(item.EvaluatedInclude) } has been switched back. Type: { Type }", MessageCategory.ME);
+                MessageProvider.AddMessage(reference.UniqueName, $"Dependency: { Path.GetFileNameWithoutExtension(item.EvaluatedInclude) } has been switched back. Type: { Type }", MessageCategory.ME);
             }
         }
 

@@ -1,4 +1,7 @@
-﻿using Microsoft.Build.Evaluation;
+﻿using CliWrap;
+using CliWrap.Buffered;
+
+using Microsoft.Build.Evaluation;
 
 using NuGet.ProjectModel;
 
@@ -20,7 +23,7 @@ namespace NuGetSwitcher.Core.Switch
 {
     public class ProjectSwitch : AbstractSwitch
     {
-        public ProjectSwitch(bool isVSIX, ReferenceType type, IPackageOption packageOption, IProjectHelper projectHelper, IMessageHelper messageHelper) : base(isVSIX, type, packageOption, projectHelper, messageHelper)
+        public ProjectSwitch(bool isVSIX, ReferenceType type, IOptionProvider packageOption, IProjectProvider projectHelper, IMessageProvider messageHelper) : base(isVSIX, type, packageOption, projectHelper, messageHelper)
         { }
 
         /// <summary>
@@ -45,7 +48,7 @@ namespace NuGetSwitcher.Core.Switch
             HashSet<string> output = new
             HashSet<string>();
 
-            IEnumerable<IProjectReference> references = ProjectHelper.GetLoadedProject();
+            IEnumerable<IProjectReference> references = ProjectProvider.GetLoadedProject();
 
             void Executor(IProjectReference reference, LockFileTargetLibrary library, string absolutePath)
             {
@@ -56,6 +59,8 @@ namespace NuGetSwitcher.Core.Switch
             }
 
             IterateAndExecute(references, Executor);
+
+            AddToSolution(ProjectProvider.Solution, output);
 
             return output;
         }
@@ -124,8 +129,26 @@ namespace NuGetSwitcher.Core.Switch
                     item.UnevaluatedInclude = absolutePath;
                 }
 
-                MessageHelper.AddMessage(reference.MsbProject.FullPath, $"Dependency: {library.Name } has been switched. Type: { Type }", MessageCategory.ME);
+                MessageProvider.AddMessage(reference.MsbProject.FullPath, $"Dependency: {library.Name } has been switched. Type: { Type }", MessageCategory.ME);
             }
+        }
+
+        protected virtual void AddToSolution(string solution, IEnumerable<string> projects)
+        {
+            Command command = Cli.Wrap("dotnet")
+
+                .WithWorkingDirectory(Path.GetDirectoryName(solution))
+
+                .WithArguments(
+
+                a => a.Add("sln")
+                      .Add(solution)
+                      .Add("add")
+                      .Add(projects)
+                      .Add("--solution-folder")
+                      .Add("temporary"));
+
+            BufferedCommandResult result = command.ExecuteBufferedAsync().GetAwaiter().GetResult();
         }
     }
 }

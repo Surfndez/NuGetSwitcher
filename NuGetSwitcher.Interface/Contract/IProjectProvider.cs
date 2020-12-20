@@ -6,8 +6,16 @@ using System.Collections.Generic;
 
 namespace NuGetSwitcher.Interface.Contract
 {
-    public interface IProjectHelper
+    public interface IProjectProvider
     {
+        /// <summary>
+        /// Absolute path to the solution file.
+        /// </summary>
+        string Solution
+        {
+            get;
+        }
+
         /// <summary>
         /// Returns solution projects
         /// that are also loaded into 
@@ -24,20 +32,5 @@ namespace NuGetSwitcher.Interface.Contract
         /// Returns projects from GPC.
         /// </summary>
         Project GetLoadedProject(string project);
-
-        /// <summary>
-        /// Unloads projects from GPC.
-        /// </summary>
-        void UnloadProject();
-
-        /// <summary>
-        /// Unloads projects from GPC.
-        /// </summary>
-        void UnloadProject(Project project);
-
-        /// <summary>
-        /// Unloads projects from GPC.
-        /// </summary>
-        void UnloadProject(string project);
     }
 }

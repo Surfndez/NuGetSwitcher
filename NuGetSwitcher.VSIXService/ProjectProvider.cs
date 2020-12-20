@@ -2,19 +2,17 @@
 
 using Microsoft.VisualStudio.Shell;
 
-using NuGetSwitcher.Helper.Entity;
-
 using NuGetSwitcher.Interface.Contract;
 using NuGetSwitcher.Interface.Entity;
-using NuGetSwitcher.Interface.Entity.Error;
 
-using System;
+using NuGetSwitcher.VSIXService.Entity;
+
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NuGetSwitcher.Helper
+namespace NuGetSwitcher.VSIXService
 {
-    public class ProjectHelper : IProjectHelper
+    public class ProjectProvider : IProjectProvider
     {
         protected EnvDTE.DTE DTE
         {
@@ -22,9 +20,17 @@ namespace NuGetSwitcher.Helper
             set;
         }
 
-        public ProjectHelper()
+        public ProjectProvider()
         {
             DTE = Package.GetGlobalService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
+        }
+
+        /// <summary>
+        /// Absolute path to the solution file.
+        /// </summary>
+        public string Solution
+        {
+            get => DTE.Solution.FullName;
         }
 
         /// <summary>
@@ -65,41 +71,6 @@ namespace NuGetSwitcher.Helper
         public virtual Project GetLoadedProject(string project)
         {
             return ProjectCollection.GlobalProjectCollection.LoadProject(project);
-        }
-
-        /// <summary>
-        /// Unloads projects from GPC.
-        /// </summary>
-        public virtual void UnloadProject()
-        {
-            ProjectCollection.GlobalProjectCollection.UnloadAllProjects();
-        }
-
-        /// <summary>
-        /// Unloads projects from GPC.
-        /// </summary>
-        /// 
-        /// <exception cref="SwitcherInvalidOperationException"/>
-        public virtual void UnloadProject(Project project)
-        {
-            try
-            {
-                ProjectCollection.GlobalProjectCollection.UnloadProject(project);
-            }
-            catch (InvalidOperationException exception)
-            {
-                throw new SwitcherInvalidOperationException(project, exception);
-            }
-        }
-
-        /// <summary>
-        /// Unloads projects from GPC.
-        /// </summary>
-        /// 
-        /// <exception cref="SwitcherInvalidOperationException"/>
-        public virtual void UnloadProject(string project)
-        {
-            UnloadProject(GetLoadedProject(project));
         }
     }
 }

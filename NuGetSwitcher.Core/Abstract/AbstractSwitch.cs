@@ -34,19 +34,19 @@ namespace NuGetSwitcher.Core.Abstract
             private set;
         }
 
-        protected IPackageOption PackageOption
+        protected IOptionProvider OptionProvider
         {
             get;
             set;
         }
 
-        protected IProjectHelper ProjectHelper
+        protected IProjectProvider ProjectProvider
         {
             get;
             set;
         }
 
-        protected IMessageHelper MessageHelper
+        protected IMessageProvider MessageProvider
         {
             get;
             set;
@@ -56,15 +56,15 @@ namespace NuGetSwitcher.Core.Abstract
         /// Indicates that the call 
         /// is from Visual Studio.
         /// </param>
-        protected AbstractSwitch(bool isVSIX, ReferenceType type, IPackageOption packageOption, IProjectHelper projectHelper, IMessageHelper messageHelper)
+        protected AbstractSwitch(bool isVSIX, ReferenceType type, IOptionProvider optionProvider, IProjectProvider projectProvider, IMessageProvider messageProvider)
         {
             IsVSIX = isVSIX;
 
             Type = type;
 
-            PackageOption = packageOption;
-            ProjectHelper = projectHelper;
-            MessageHelper = messageHelper;
+            OptionProvider = optionProvider;
+            ProjectProvider = projectProvider;
+            MessageProvider = messageProvider;
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace NuGetSwitcher.Core.Abstract
         /// <exception cref="SwitcherFileNotFoundException"/>
         protected virtual LockFile GetLockFile(IProjectReference reference)
         {
-            return LockFileUtilities.GetLockFile(reference.LockFile, NullLogger.Instance) ?? new LockFile();
+            return LockFileUtilities.GetLockFile(reference.GetLockFile(), NullLogger.Instance) ?? new LockFile();
         }
 
         /// <summary>
@@ -117,9 +117,9 @@ namespace NuGetSwitcher.Core.Abstract
         /// <exception cref="ArgumentException">
         protected virtual void IterateAndExecute(IEnumerable<IProjectReference> references, Action<IProjectReference, LockFileTargetLibrary, string> func)
         {
-            MessageHelper.Clear();
+            MessageProvider.Clear();
 
-            ReadOnlyDictionary<string, string> items = PackageOption.GetIncludeItems(Type);
+            ReadOnlyDictionary<string, string> items = OptionProvider.GetIncludeItems(Type);
 
             foreach (IProjectReference reference in references)
             {
@@ -196,7 +196,7 @@ namespace NuGetSwitcher.Core.Abstract
 
             if (output)
             {
-                MessageHelper.AddMessage(reference.MsbProject.FullPath, $"Dependency: { Path.GetFileName(unevaluatedInclude) } has been added. Type: { type }", MessageCategory.ME);
+                MessageProvider.AddMessage(reference.MsbProject.FullPath, $"Dependency: { Path.GetFileName(unevaluatedInclude) } has been added. Type: { type }", MessageCategory.ME);
             }
 
             return output;

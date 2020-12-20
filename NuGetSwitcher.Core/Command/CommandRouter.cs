@@ -8,12 +8,12 @@ namespace NuGetSwitcher.Core.Router
 {
     public sealed class CommandRouter : ICommandRouter
     {
-        private readonly IPackageOption _packageOption;
+        private readonly IOptionProvider _packageOption;
         private readonly AbstractSwitch _projectSwitch;
         private readonly AbstractSwitch _packageSwitch;
         private readonly AbstractSwitch _librarySwitch;
 
-        public CommandRouter(IPackageOption packageOption, AbstractSwitch projectSwitch, AbstractSwitch packageSwitch, AbstractSwitch librarySwitch)
+        public CommandRouter(IOptionProvider packageOption, AbstractSwitch projectSwitch, AbstractSwitch packageSwitch, AbstractSwitch librarySwitch)
         {
             _packageOption = packageOption;
             _projectSwitch = projectSwitch;

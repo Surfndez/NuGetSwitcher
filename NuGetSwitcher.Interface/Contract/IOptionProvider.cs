@@ -4,9 +4,9 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 
-namespace NuGetSwitcher.Option
+namespace NuGetSwitcher.Interface.Contract
 {
-    public interface IPackageOption
+    public interface IOptionProvider
     {
         /// <summary>
         /// Returns a dictionary where file names are 
